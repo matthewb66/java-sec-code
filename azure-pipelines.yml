@@ -1,4 +1,5 @@
 # Maven
+
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
@@ -20,6 +21,15 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+- task: DownloadBuildArtifacts@0
+  inputs:
+    buildType: 'specific'
+    project: '4dc367dc-3139-406d-a847-19b18dc44e68'
+    pipeline: '4'
+    buildVersionToDownload: 'latest'
+    downloadType: 'specific'
+    itemPattern: '.bdprevscan'
+    downloadPath: '.'
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -27,3 +37,8 @@ steps:
       curl -s -L https://raw.github.com/matthewb66/detect_rescan/main/detect_rescan.sh > detect_rescan.sh
       chmod +x detect_rescan.sh
       ./detect_rescan.sh --blackduck.api.token=MmEwZTdkNjAtNjU5MS00MWEwLThjZTgtZGI2MTFiNDA2ZDkxOjRhYzc2YTcyLTdiNjMtNGQxZC05ZTNhLTY0NDM0MjEwZjhjZg== --blackduck.trust.cert=true --blackduck.url=https://poc39.blackduck.synopsys.com --detect.project.name=MRB-java-sec-code --detect.project.version.name=1.0  --detect.source.path=. --detect.policy.check.fail.on.severities=ALL --quiet --report
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '.bdprevscan'
+    ArtifactName: 'BlackDuckPrevScan'
+    publishLocation: 'Container'
