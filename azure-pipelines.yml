@@ -21,23 +21,22 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
-- task: DownloadBuildArtifacts@0
+- task: DownloadPipelineArtifact@2
   inputs:
     buildType: 'specific'
     project: '4dc367dc-3139-406d-a847-19b18dc44e68'
-    pipeline: '4'
+    definition: '4'
     buildVersionToDownload: 'latest'
-    downloadType: 'specific'
-    itemPattern: '.bdprevscan'
-    downloadPath: '.'
-
+    allowFailedBuilds: true
+    targetPath: '$(Pipeline.Workspace)'
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
+      cp $(PipeLine.Workspace)/PipelineTime/.bdprevscan $(PipeLine.Workspace)
       bash <(curl -s -L https://raw.github.com/matthewb66/detect_rescan/main/detect_rescan.sh) --blackduck.api.token=MmEwZTdkNjAtNjU5MS00MWEwLThjZTgtZGI2MTFiNDA2ZDkxOjRhYzc2YTcyLTdiNjMtNGQxZC05ZTNhLTY0NDM0MjEwZjhjZg== --blackduck.trust.cert=true --blackduck.url=https://poc39.blackduck.synopsys.com --detect.project.name=MRB-java-sec-code --detect.project.version.name=1.0  --detect.source.path=. --detect.policy.check.fail.on.severities=ALL --quiet --report
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)'
-    artifact: '.bdprevscan'
+    targetPath: '$(Pipeline.Workspace)/.bdprevscan'
+    artifact: 'BDPrevScan'
     publishLocation: 'pipeline'
