@@ -26,7 +26,6 @@ steps:
     targetType: 'inline'
     script: |
       bash <(curl -s -L https://raw.github.com/matthewb66/detect_rescan/main/detect_rescan.sh) --blackduck.api.token=MmEwZTdkNjAtNjU5MS00MWEwLThjZTgtZGI2MTFiNDA2ZDkxOjRhYzc2YTcyLTdiNjMtNGQxZC05ZTNhLTY0NDM0MjEwZjhjZg== --blackduck.trust.cert=true --blackduck.url=https://poc39.blackduck.synopsys.com --detect.project.name=MRB-java-sec-code --detect.project.version.name=1.0  --detect.source.path=. --detect.policy.check.fail.on.severities=ALL --quiet --report --testxml
-      cat blackduck.xml
 - task: PublishTestResults@2
   displayName: 'Publish Test Results **/blackduck.xml'
   inputs:
