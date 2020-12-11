@@ -30,6 +30,6 @@ steps:
   displayName: 'Publish Test Results **/blackduck.xml'
   inputs:
     testResultsFiles: '**/blackduck.xml'
-    testRunTitle: 'Black Duck Policy'
+    testRunTitle: 'Black Duck Policy Violations'
 
   
