@@ -1,0 +1,17 @@
+version: "1"
+install:
+  coverity:
+    version: 2020.09
+project:
+  name: "matthewb66/jsc-ghaction"
+  branch: "master"
+  revision:
+    name: "matthewb66/jsc-ghaction"
+    date: "2020-10-01T14:25:30Z"
+  captureDir: .synopsys/polaris
+capture:
+  coverity:
+    buildless:
+      project:
+        languages:
+          - "java"
