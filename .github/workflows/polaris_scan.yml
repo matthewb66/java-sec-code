@@ -21,7 +21,7 @@ jobs:
       if: ${{ github.event_name == 'pull_request' }}
 
     - name: Static Analysis with Polaris Action
-      uses: devsecops-test/polaris-action@85ad881b9e9ca5adbcdfdb8a73bf20b1f7094f56
+      uses: devsecops-test/polaris-action@v1
       with:
         polarisServerUrl: ${{secrets.POLARIS_SERVER_URL}}
         polarisAccessToken: ${{secrets.POLARIS_ACCESS_TOKEN}}
@@ -29,7 +29,7 @@ jobs:
     
     - name: Incremental Static Analysis with Polaris Action for Pull Request
       if: ${{github.event_name == 'pull_request'}}
-      uses: devsecops-test/polaris-action@85ad881b9e9ca5adbcdfdb8a73bf20b1f7094f56
+      uses: devsecops-test/polaris-action@v1
       with:
         polarisServerUrl: ${{secrets.POLARIS_SERVER_URL}}
         polarisAccessToken: ${{secrets.POLARIS_ACCESS_TOKEN}}
@@ -40,7 +40,7 @@ jobs:
 
     - name: Incremental Static Analysis with Polaris Action for a single commit
       if: ${{github.event_name == 'push'}}
-      uses: devsecops-test/polaris-action@85ad881b9e9ca5adbcdfdb8a73bf20b1f7094f56
+      uses: devsecops-test/polaris-action@v1
       with:
         polarisServerUrl: ${{secrets.POLARIS_SERVER_URL}}
         polarisAccessToken: ${{secrets.POLARIS_ACCESS_TOKEN}}
