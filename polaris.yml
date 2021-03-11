@@ -3,10 +3,10 @@ install:
   coverity:
     version: 2020.09
 project:
-  name: "matthewb66/jsc-ghaction"
+  name: "matthewb66/jsc-ghaction1"
   branch: "master"
   revision:
-    name: "matthewb66/jsc-ghaction"
+    name: "matthewb66/jsc-ghaction1"
     date: "2020-10-01T14:25:30Z"
   captureDir: .synopsys/polaris
 capture:
