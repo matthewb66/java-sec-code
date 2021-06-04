@@ -20,24 +20,21 @@ jobs:
     - run: git checkout HEAD^2
       if: ${{ github.event_name == 'pull_request' }}
 
-    - name: Static Analysis with Polaris Action
+    - name: Polaris Scan
       uses: devsecops-test/polaris-action@v1
       with:
         polarisServerUrl: ${{secrets.POLARIS_SERVER_URL}}
         polarisAccessToken: ${{secrets.POLARIS_ACCESS_TOKEN}}
         polarisProjectName: matthewb66/jsc-ghaction
-
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v1
       with:
         # Path to SARIF file relative to the root of the repository
         sarif_file: polaris-scan-results.sarif.json
-
-    - name: Get Synopsys Detect Rescan
+    - name: Synopsys Detect Rescan
         run: >
           curl -s -L https://raw.github.com/matthewb66/detect_rescan/main/detect_rescan.sh > detect_rescan.sh; 
           bash detect_rescan.sh --blackduck.url=https://poc39.blackduck.synopsys.com --blackduck.api.token=MmEwZTdkNjAtNjU5MS00MWEwLThjZTgtZGI2MTFiNDA2ZDkxOjRhYzc2YTcyLTdiNjMtNGQxZC05ZTNhLTY0NDM0MjEwZjhjZg== --detect.project.name=MRB-jsc2 --quiet --testxml --report
-
     - name: Publish Test Report
         uses: mikepenz/action-junit-report@v2
         with:
