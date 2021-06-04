@@ -26,31 +26,20 @@ jobs:
         polarisServerUrl: ${{secrets.POLARIS_SERVER_URL}}
         polarisAccessToken: ${{secrets.POLARIS_ACCESS_TOKEN}}
         polarisProjectName: matthewb66/jsc-ghaction
-    
-#     - name: Incremental Static Analysis with Polaris Action for Pull Request
-#       if: ${{github.event_name == 'pull_request'}}
-#       uses: devsecops-test/polaris-action@v1
-#       with:
-#         polarisServerUrl: ${{secrets.POLARIS_SERVER_URL}}
-#         polarisAccessToken: ${{secrets.POLARIS_ACCESS_TOKEN}}
-#         polarisProjectName: matthewb66/jsc-ghaction
-#         polarisAdditionalArgs: --coverity-ignore-capture-failure --incremental polaris-files-to-scan.txt | tee polaris-output.txt
-#         githubUrl: https://api.github.com/repos/${{github.repository}}/pulls/$(jq --raw-output .pull_request.number ${{github.event_path}})/files
-#         githubCreds: "${{secrets.GITHUB_USERNAME}}:${{secrets.GITHUB_TOKEN}}"     #Needed only if repository is private
-
-#     - name: Incremental Static Analysis with Polaris Action for a single commit
-#       if: ${{github.event_name == 'push'}}
-#       uses: devsecops-test/polaris-action@v1
-#       with:
-#         polarisServerUrl: ${{secrets.POLARIS_SERVER_URL}}
-#         polarisAccessToken: ${{secrets.POLARIS_ACCESS_TOKEN}}
-#         polarisProjectName: insecure-bank
-#         polarisAdditionalArgs: --coverity-ignore-capture-failure --incremental polaris-files-to-scan.txt | tee polaris-output.txt
-#         githubUrl: https://api.github.com/repos/${{github.repository}}/commits/${{github.sha}}
-#         githubCreds: "${{secrets.GITHUB_USERNAME}}:${{secrets.GITHUB_TOKEN}}"     #Needed only if repository is private
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v1
       with:
         # Path to SARIF file relative to the root of the repository
         sarif_file: polaris-scan-results.sarif.json
+
+    - name: Get Synopsys Detect Rescan
+        run: >
+          curl -s -L https://raw.github.com/matthewb66/detect_rescan/main/detect_rescan.sh > detect_rescan.sh; 
+          bash detect_rescan.sh --blackduck.url=https://poc39.blackduck.synopsys.com --blackduck.api.token=MmEwZTdkNjAtNjU5MS00MWEwLThjZTgtZGI2MTFiNDA2ZDkxOjRhYzc2YTcyLTdiNjMtNGQxZC05ZTNhLTY0NDM0MjEwZjhjZg== --detect.project.name=MRB-jsc2 --quiet --testxml --report
+
+    - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2
+        with:
+          report_paths: '**/policies.xml'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
