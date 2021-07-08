@@ -21,16 +21,6 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      bash <(curl -s -L https://raw.github.com/matthewb66/detect_rescan/dev/detect_rescan.sh) --blackduck.api.token=MmEwZTdkNjAtNjU5MS00MWEwLThjZTgtZGI2MTFiNDA2ZDkxOjRhYzc2YTcyLTdiNjMtNGQxZC05ZTNhLTY0NDM0MjEwZjhjZg== --blackduck.trust.cert=true --blackduck.url=https://poc39.blackduck.synopsys.com --detect.project.name=MRB-java-sec-code --detect.project.version.name=2.0  --report --testxml --quiet
 
-- task: PublishTestResults@2
-  displayName: 'Publish Test Results **/vulns.xml'
-  inputs:
-    testResultsFiles: '**/vulns.xml'
-    testRunTitle: 'Black Duck Vulnerabilities'
 
   
