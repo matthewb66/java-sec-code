@@ -18,3 +18,8 @@ steps:
     jdkVersionOption: '1.8'
     jdkArchitectureOption: 'x64'
     goals: 'package'
+
+- task: SynopsysPolaris@1
+  inputs:
+    polarisService: 'Polaris SIPSE'
+    polarisCommand: 'analyze'
